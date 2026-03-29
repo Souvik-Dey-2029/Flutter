@@ -335,39 +335,42 @@ class GlassTaskCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: isCompleted
-                        ? Colors.greenAccent.withValues(alpha: 0.2)
-                        : Colors.white10,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(
-                    isCompleted
-                        ? Icons.check_rounded
-                        : Icons.radio_button_unchecked,
-                    color: isCompleted ? Colors.greenAccent : Colors.white30,
-                  ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: isCompleted
+                      ? Colors.greenAccent.withValues(alpha: 0.2)
+                      : Colors.white.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          decoration:
-                              isCompleted ? TextDecoration.lineThrough : null,
-                          color: isCompleted ? Colors.white38 : Colors.white,
-                        ),
+                child: Icon(
+                  isCompleted
+                      ? Icons.check_rounded
+                      : Icons.radio_button_unchecked,
+                  color: isCompleted ? Colors.greenAccent : Colors.white24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 300),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: GoogleFonts.outfit().fontFamily,
+                        fontWeight: FontWeight.w600,
+                        decoration:
+                            isCompleted ? TextDecoration.lineThrough : null,
+                        color: isCompleted ? Colors.white38 : Colors.white,
                       ),
-                      const SizedBox(height: 4),
-                      Row(
+                      child: Text(title),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
                         children: [
                           Text(
                             category,
