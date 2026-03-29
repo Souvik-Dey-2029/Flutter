@@ -215,53 +215,83 @@ class _AuraHomePageState extends State<AuraHomePage> {
   }
 }
 
-class AuraBackground extends StatelessWidget {
+class AuraBackground extends StatefulWidget {
   const AuraBackground({super.key});
 
   @override
+  State<AuraBackground> createState() => _AuraBackgroundState();
+}
+
+class _AuraBackgroundState extends State<AuraBackground>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF030310), // Ultra dark space color
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: -100,
-            right: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    Colors.indigoAccent.withValues(alpha: 0.4),
-                    Colors.transparent,
-                  ],
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF030310),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: -100 + (50 * _animation.value),
+                right: -100 + (20 * _animation.value),
+                child: Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        Colors.indigoAccent.withValues(alpha: 0.4),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            bottom: 100,
-            left: -50,
-            child: Container(
-              width: 400,
-              height: 400,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    Colors.deepPurple.withValues(alpha: 0.3),
-                    Colors.transparent,
-                  ],
+              Positioned(
+                bottom: 50 + (80 * _animation.value),
+                left: -50 + (30 * _animation.value),
+                child: Container(
+                  width: 400,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        Colors.deepPurple.withValues(alpha: 0.3),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
