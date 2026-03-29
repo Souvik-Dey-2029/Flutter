@@ -189,13 +189,27 @@ class _AuraHomePageState extends State<AuraHomePage> {
                       separatorBuilder: (context, index) => const SizedBox(height: 16),
                       itemBuilder: (context, index) {
                         final task = _tasks[index];
-                        return GlassTaskCard(
-                          title: task.title,
-                          category: task.category,
-                          time: task.time,
-                          isCompleted: task.isCompleted,
-                          onToggle: () => _toggleTask(index),
-                          onDelete: () => _deleteTask(index),
+                        return TweenAnimationBuilder<double>(
+                          key: ValueKey(task.title + index.toString()),
+                          duration: const Duration(milliseconds: 500),
+                          tween: Tween(begin: 0.0, end: 1.0),
+                          builder: (context, value, child) {
+                            return Opacity(
+                              opacity: value,
+                              child: Transform.translate(
+                                offset: Offset(0, 20 * (1 - value)),
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: GlassTaskCard(
+                            title: task.title,
+                            category: task.category,
+                            time: task.time,
+                            isCompleted: task.isCompleted,
+                            onToggle: () => _toggleTask(index),
+                            onDelete: () => _deleteTask(index),
+                          ),
                         );
                       },
                     ),
